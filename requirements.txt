@@ -1,0 +1,8 @@
+Django==4.0.4
+gensim==4.1.2
+konlpy==0.6.0
+# pip install pandas
+# pip install tqdm
+
+# pip install intel-openmp
+# conda install pytorch torchvision torchaudio cpuonly -c pytorch

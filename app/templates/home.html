@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMOJI</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'full-page-scroll.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'home.css' %}" type="text/css">
+    <script src="https://kit.fontawesome.com/a5054c9845.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="layout">
+        <div class="section-stick">
+          <div class="stick active"></div>
+        </div>
+  
+        <!-- First Section -->
+        <section class="s1">
+            <div class="home">
+                <div class="fade_obj">
+                    <img class="img1" src="{% static 'imgs/maintxt.png' %}" >
+                    <img class="img2" src="{% static 'imgs/mainimage.png' %}" >
+                </div>
+            </div>
+        </section>
+
+        <!-- Second Section -->
+        <section class="s2">
+          <div class="second_section">
+            <img class="img3" src="{% static 'imgs/secondtxt.png' %}" >
+            <div class="searchbar-wrap">
+                <form id="myForm" action="{% url 'home' %}" method="POST">
+                    {%csrf_token%}
+                    <input class="search-input" name="body" id="body" type="text" autocomplete="off">
+                </form>
+            </div>
+            <div class="emojis" id="emojis"></div>
+            <img class="img4" src="{% static 'imgs/secondimg.png' %}" >
+            <img class="img5" src="{% static 'imgs/pink.png' %}" >
+            <div id="spinner" style="display: none; position: absolute;
+            height: 42vh;
+            bottom: 17vh;
+            left: 40vw;">
+              <img src="{% static 'imgs/Spinner.gif' %}" alt="Loading..." />
+            </div>
+          </div>
+        </section>
+      </div>
+  
+      <!-- Footer -->
+      <footer>
+        <!-- <h2>Footer</h2> -->
+      </footer>
+    
+
+    <script type="text/javascript" src="/static/full-page-scroll.js"></script>
+    <script>
+      document.getElementById('body').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          document.getElementById('spinner').style.display = 'block';
+
+          fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({'body': document.getElementById('body').value}),
+          })
+            .then(response => response.json())
+            .then(response => {
+                // Access the variable from the JSON response
+                var emojis = response.result;
+                document.getElementById('emojis').innerHTML = '';
+                emojis.forEach(function(emoji) {
+                  var emojiElement = document.createElement('p');
+                  emojiElement.className = 'emoji';
+                  emojiElement.textContent = emoji;
+                  document.getElementById('emojis').appendChild(emojiElement);
+                });
+                document.getElementById('spinner').style.display = 'none';
+                document.getElementById('body').value = '';
+            })
+            .catch(error => {
+                // Handle any errors that may occur during the request
+                console.log(error);
+                document.getElementById('spinner').style.display = 'none';
+            });
+        }
+      });
+      
+    </script>
+    
+</body>
+</html>
