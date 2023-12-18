@@ -3,12 +3,12 @@
 
 # Emoji Recommendation Project
 
-Welcome to the Emoji Recommendation Web App project! This application suggests emojis based on the sentences you input. Explore the world of expressive emojis effortlessly!
+Welcome to the Emoji Recommendation Web project! This application suggests emojis based on the sentences you input. Explore the world of expressive emojis effortlessly!
 
 <br>
 
 ## Demo
-Check out the **demo video** to see the app in action!
+Check out the **demo video** to see the web in action!
 
 ![demo](https://github.com/smmin21/Emoji_Recommendation/assets/79392773/c03ef046-148e-413b-b13e-2ce536a63dcb)
 
